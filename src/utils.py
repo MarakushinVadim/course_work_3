@@ -1,32 +1,34 @@
 import json
 from datetime import datetime
 
-with open('operations.json') as file:
-    operation_dict = json.load(file)
-    five_operation = {}
-    operation_list = []
-    iteration = 0
-    for operation in operation_dict:
-        while len(five_operation) < 5:
-            if operation['state'] == 'EXECUTED':
-                iteration += 1
-                five_operation[iteration] = operation
-                break
-for operation in five_operation:
-    operation_list.append(five_operation[operation])
 
-sorted_operation_list = sorted(
-    operation_list,
-    key=lambda x: datetime.strptime(x['date'], '%Y-%m-%dT%H:%M:%S.%f'), reverse=True
-)
+def get_sorted_operation_list():
+    with open('/home/vadim/PycharmProjects/course_work_3/src/operations.json') as file:
+        operation_dict = json.load(file)
+        five_operation = {}
+        operation_list = []
+        iteration = 0
+        for operation in operation_dict:
+            while len(five_operation) < 5:
+                if operation['state'] == 'EXECUTED':
+                    iteration += 1
+                    five_operation[iteration] = operation
+                    break
+    for operation in five_operation:
+        operation_list.append(five_operation[operation])
 
+    sorted_operation_list = sorted(
+        operation_list,
+        key=lambda x: datetime.strptime(x['date'], '%Y-%m-%dT%H:%M:%S.%f'), reverse=True
+    )
+    return sorted_operation_list
 
 def get_date(dict):
     dict["date"]
     year = dict['date'][0:4]
     month = dict['date'][5:7]
     day = dict['date'][8:10]
-    return f'{day}.{month}.{year}'
+    return f'{str(day)}.{str(month)}.{str(year)}'
 
 
 def get_description(dict):
@@ -44,6 +46,3 @@ def get_card_info(dict):
 def get_sum(dict):
     return f'''{dict['operationAmount']['amount']} {dict['operationAmount']['currency']['name']}'''
 
-print(f'''{get_date(sorted_operation_list[4])} {get_description(sorted_operation_list[4])}
-{get_card_info(sorted_operation_list[4])}
-{get_sum(sorted_operation_list[4])}''')
