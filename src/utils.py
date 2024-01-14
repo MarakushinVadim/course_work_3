@@ -3,6 +3,10 @@ from datetime import datetime
 
 
 def get_sorted_operation_list():
+    '''
+    Функция создает и сортирует по дате список транзакций
+    :return: список транзакций
+    '''
     with open('/home/vadim/PycharmProjects/course_work_3/src/operations.json') as file:
         operation_dict = json.load(file)
         five_operation = {}
@@ -24,6 +28,11 @@ def get_sorted_operation_list():
     return sorted_operation_list
 
 def get_date(dict):
+    """
+    Функция для преобразования даты
+    :param dict:словарь с данными
+    :return:дату в нужном формате
+    """
     dict["date"]
     year = dict['date'][0:4]
     month = dict['date'][5:7]
@@ -32,10 +41,20 @@ def get_date(dict):
 
 
 def get_description(dict):
+    """
+    Функция для вывода типа транзакции
+    :param dict: словарь с данными
+    :return: возвращает тип транзакции
+    """
     return dict['description']
 
 
 def get_card_info(dict):
+    """
+    Функция для вывода данных о карте и счете
+    :param dict: словарь с данными
+    :return: форматированные данные о карте(при наличии) и счете
+    """
     if 'from' in dict:
         card_name = dict['from'][:-17]
         card_num = dict['from'][-16:]
@@ -44,5 +63,10 @@ def get_card_info(dict):
     return (f'''Нет информации о номере карты -> {dict['to'][0:4]} **{dict['to'][-4:]}''')
 
 def get_sum(dict):
+    """
+    Функция для вывода суммы и валюты взаиморасчетов
+    :param dict: словарь с данными
+    :return: Возвращает сумму и название валюты
+    """
     return f'''{dict['operationAmount']['amount']} {dict['operationAmount']['currency']['name']}'''
 
