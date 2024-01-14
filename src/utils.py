@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 
-with open('operations.json') as file:
+with open('src/operations.json') as file:
     operation_dict = json.load(file)
     five_operation = {}
     operation_list = []
