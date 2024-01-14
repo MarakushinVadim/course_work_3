@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 
-with open('src/operations.json') as file:
+with open('operations.json') as file:
     operation_dict = json.load(file)
     five_operation = {}
     operation_list = []
@@ -20,8 +20,6 @@ sorted_operation_list = sorted(
     key=lambda x: datetime.strptime(x['date'], '%Y-%m-%dT%H:%M:%S.%f'), reverse=True
 )
 
-print(sorted_operation_list[0])
-print(sorted_operation_list[0]['date'])
 
 def get_date(dict):
     dict["date"]
@@ -36,15 +34,16 @@ def get_description(dict):
 
 
 def get_card_info(dict):
-    card_name = dict['from'][:-17]
-    card_num = dict['from'][-16:]
-    acc_num = dict['to']
-    return (f'{card_name} {card_num[0:4]} {card_num[4:6]}** **** {card_num[12:]} -> {acc_num[0:4]} **{acc_num[-4:]}')
-
+    if 'from' in dict:
+        card_name = dict['from'][:-17]
+        card_num = dict['from'][-16:]
+        acc_num = dict['to']
+        return (f'{card_name} {card_num[0:4]} {card_num[4:6]}** **** {card_num[12:]} -> {acc_num[0:4]} **{acc_num[-4:]}')
+    return (f'''Нет информации о номере карты -> {dict['to'][0:4]} **{dict['to'][-4:]}''')
 
 def get_sum(dict):
     return f'''{dict['operationAmount']['amount']} {dict['operationAmount']['currency']['name']}'''
 
-print(f'''{get_date(sorted_operation_list[0])} {get_description(sorted_operation_list[0])}
-{get_card_info(sorted_operation_list[0])}
-{get_sum(sorted_operation_list[0])}''')
+print(f'''{get_date(sorted_operation_list[4])} {get_description(sorted_operation_list[4])}
+{get_card_info(sorted_operation_list[4])}
+{get_sum(sorted_operation_list[4])}''')
